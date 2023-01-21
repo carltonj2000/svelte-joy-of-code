@@ -5,8 +5,9 @@
 
 <nav>
 	<ul>
-		<li><a href="/posts">Posts</a></li>
 		<li><a href="/">Home</a></li>
+		<li><a href="/posts-csr">Posts CSR</a></li>
+		<li><a href="/posts-ssr">Posts SSR</a></li>
 	</ul>
 </nav>
 

@@ -10,6 +10,6 @@
 
 {#each posts as { slug, title }}
 	<div>
-		<h3><a href="/post/{slug}">{title}</a></h3>
+		<h3><a href="/posts-ssr/{slug}">{title}</a></h3>
 	</div>
 {/each}
