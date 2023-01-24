@@ -7,7 +7,6 @@
 	$: ({ posts } = data);
 
 	function rerunLoad() {
-		// to do
 		invalidate('posts'); // a dependency defined on the server code
 		// invalidate('api/posts'); // won't work with params
 		// invalidate(url => url.href.includdes('posts'));
