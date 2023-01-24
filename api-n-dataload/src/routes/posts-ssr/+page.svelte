@@ -5,7 +5,7 @@
 	$: ({ posts } = data);
 </script>
 
-<h1>Posts</h1>
+<h1>Posts SSR</h1>
 <p>Showing {posts.length} posts.</p>
 
 {#each posts as { slug, title }}
