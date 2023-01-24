@@ -7,7 +7,6 @@ export const GET: RequestHandler = async (event) => {
   const { url } = event;
   const limit = Number(url.searchParams.get('limit') ?? 30);
   const order = url.searchParams.get('order') ?? 'asc';
-  console.log(`order: ${order}, limit: ${limit}`);
   const posts = await db.post.findMany({ take: limit, orderBy: { id: order } });
   return json(posts);
 };

@@ -14,6 +14,7 @@
 		<li><a href="/posts-ssr">Posts SSR</a></li>
 		<li><a href="/posts-layout">Posts Layout SSR</a></li>
 		<li><a href="/posts-store">Posts Page Store</a></li>
+		<li><a href="/posts-ssr-man">Posts SSR Manual</a></li>
 	</ul>
 </nav>
 
