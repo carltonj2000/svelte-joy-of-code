@@ -1,14 +1,29 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import { enhance } from '$app/forms';
+	import { enhance, type SubmitFunction } from '$app/forms';
 
 	export let data: PageData;
 	export let form: ActionData;
+
+	let loading = false;
+	const addTodo: SubmitFunction = (input) => {
+		// console.log('execute before form submits', { input });
+		loading = true;
+
+		return async (options) => {
+			// console.log('execute after form submits', { options });
+			await options.update();
+			loading = false;
+		};
+	};
 </script>
 
 <h1>To Do's</h1>
 
-<form action="?/addTodo" method="post" class="addToDo" use:enhance>
+{#if loading}
+	<p>Loading ...</p>
+{/if}
+<form action="?/addTodo" method="post" class="addToDo" use:enhance={addTodo}>
 	<button type="submit" formaction="?/clearTodos" class="secondary"
 		>Clear All To Do</button
 	>
@@ -17,7 +32,11 @@
 		{#if form?.missing}
 			<p class="error">Required</p>
 		{/if}
-		<button type="submit">Add To Do</button>
+		<button type="submit" aria-busy={loading}>
+			{#if !loading}
+				Add To Do
+			{/if}
+		</button>
 	</div>
 </form>
 {#each data.todos as td}

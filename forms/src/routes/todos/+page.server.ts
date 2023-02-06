@@ -12,8 +12,13 @@ export const load = (async () => {
   return { todos };
 }) satisfies PageServerLoad;
 
+const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export const actions: Actions = {
   addTodo: async ({ request }) => {
+    await sleep(2000);
     const formData = await request.formData();
     const text = String(formData.get('text'));
     if (!text) {
