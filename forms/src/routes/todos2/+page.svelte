@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
-	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -8,7 +7,7 @@
 
 <h1>To Do's</h1>
 
-<form action="?/addTodo" method="post" class="addToDo" use:enhance>
+<form action="?/addTodo" method="post" class="addToDo">
 	<button type="submit" formaction="?/clearTodos" class="secondary"
 		>Clear All To Do</button
 	>
@@ -25,7 +24,7 @@
 		<label><input type="checkbox" name="completed" />Completed</label>
 		<input type="hidden" name="id" value={td.id} />
 		<h3>{td.text}</h3>
-		<form action="?/removeTodo" method="post" use:enhance>
+		<form action="?/removeTodo" method="post">
 			<input type="hidden" name="id" value={td.id} />
 			<button type="submit">Delete</button>
 		</form>
