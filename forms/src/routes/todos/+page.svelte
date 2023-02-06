@@ -1,73 +1,30 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
-
-	import type { PageData } from './$types';
-	import type { Data } from './+server';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
-	let form: Data;
-
-	async function addTodo(event: Event) {
-		const formEl = event.target as HTMLFormElement;
-		const result = await fetch('/todos', {
-			method: 'POST',
-			body: new FormData(formEl)
-		});
-		formEl.reset();
-		form = await result.json();
-		await invalidateAll();
-	}
-
-	async function removeTodo(event: Event) {
-		const result = await fetch('/todos', {
-			method: 'DELETE',
-			body: new FormData(event.target as HTMLFormElement)
-		});
-		const data: Data = await result.json();
-		if (data.success) {
-			await invalidateAll();
-		} else {
-			console.log('should set errors after delete');
-		}
-	}
-
-	async function updateTodo(event: Event) {
-		console.log('update');
-		const result = await fetch('/todos', {
-			method: 'UPDATE',
-			body: new FormData(event.target as HTMLFormElement)
-		});
-		const data: Data = await result.json();
-		if (data.success) {
-			return console.log('should refreseh todos after delete');
-		}
-		console.log('should set errors after delete');
-	}
+	export let form: ActionData;
 </script>
 
 <h1>To Do's</h1>
 
-<form on:submit|preventDefault={addTodo} method="post" class="addToDo">
-	<input type="text" name="text" />
-	{#if form?.errors?.text}
-		<p class="error">{form.errors.text}</p>
-	{/if}
-	<button type="submit">Add To Do</button>
+<form action="?/addTodo" method="post" class="addToDo">
+	<button type="submit" formaction="?/clearTodos" class="secondary"
+		>Clear All To Do</button
+	>
+	<div>
+		<input type="text" name="text" />
+		{#if form?.missing}
+			<p class="error">Required</p>
+		{/if}
+		<button type="submit">Add To Do</button>
+	</div>
 </form>
 {#each data.todos as td}
 	<div class="todoList">
-		<form on:submit|preventDefault={updateTodo} method="post">
-			<label
-				><input
-					type="checkbox"
-					name="completed"
-					on:change={updateTodo}
-				/>Completed</label
-			>
-			<input type="hidden" name="id" value={td.id} />
-		</form>
+		<label><input type="checkbox" name="completed" />Completed</label>
+		<input type="hidden" name="id" value={td.id} />
 		<h3>{td.text}</h3>
-		<form on:submit|preventDefault={removeTodo} method="post">
+		<form action="?/removeTodo" method="post">
 			<input type="hidden" name="id" value={td.id} />
 			<button type="submit">Delete</button>
 		</form>
@@ -86,7 +43,13 @@
 	}
 	.addToDo {
 		display: flex;
+		flex-direction: column;
 		gap: 1rem;
 		align-items: center;
+	}
+	.addToDo > div {
+		display: flex;
+		width: 100%;
+		gap: 1rem;
 	}
 </style>

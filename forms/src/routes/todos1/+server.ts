@@ -34,18 +34,3 @@ export const DELETE: RequestHandler = async ({ request }) => {
   data.success = true;
   return json(data);
 };
-
-export const UPDATE: RequestHandler = async ({ request }) => {
-  const formData = await request.formData();
-  const id = Number(formData.get('id'));
-  const completed = Boolean(formData.get('completed'));
-  const data: Data = { success: false, errors: {} };
-  if (!id || !completed) {
-    data.errors.text = 'required';
-    return json(data, { status: 400 });
-  }
-
-  updateTodos(id, completed);
-  data.success = true;
-  return json(data);
-};
